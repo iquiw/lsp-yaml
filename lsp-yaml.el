@@ -46,3 +46,6 @@
                          :initialize #'lsp-yaml--initialize-client)
 
 (add-hook 'lsp-after-initialize-hook #'lsp-yaml--set-configuration)
+
+(provide 'lsp-yaml)
+;;; lsp-yaml.el ends here
