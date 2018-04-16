@@ -1,0 +1,5 @@
+#! /bin/sh
+
+# dummy npm command for test.
+
+echo "/opt/npm"

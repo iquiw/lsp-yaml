@@ -8,14 +8,17 @@
   "Yaml support for lsp-mode."
   :group 'lsp-mode)
 
-(defcustom lsp-yaml-language-server-dir
-  (ignore-errors
-    (expand-file-name "node_modules/yaml-language-server"
+(defun lsp-yaml--find-language-server-dir ()
+  "Find default \"yaml-language-server\" directory using \"npm\" command."
+  (let ((npm-prefix (ignore-errors
                       (with-output-to-string
                         (with-current-buffer standard-output
                           (process-file "npm" nil t nil "config" "get" "prefix")
                           (goto-char (point-min))
-                          (replace-regexp "\n" "")))))
+                          (replace-regexp "\n" ""))))))
+    (expand-file-name "node_modules/yaml-language-server" npm-prefix)))
+
+(defcustom lsp-yaml-language-server-dir (lsp-yaml--find-language-server-dir)
   "Directory where \"yaml-language-server\" is installed.")
 
 (defcustom lsp-yaml-schemas '(:kubernetes "/*-k8s.yaml")
