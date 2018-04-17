@@ -2,11 +2,11 @@
 
 (require 'lsp-yaml)
 
-(ert-deftest lsp-yaml-test-json-encoded-default-schemas ()
-  "Check if JSON encoded default `lsp-yaml-schemas' is correct."
+(ert-deftest lsp-yaml-test-json-encoded-default-settings ()
+  "Check if JSON encoded default settings are correct."
   (should
-   (equal (json-encode lsp-yaml-schemas)
-          "{\"kubernetes\":\"/*-k8s.yaml\"}")))
+   (equal (json-encode (lsp-yaml--settings))
+          "{\"yaml\":{\"schemas\":{\"kubernetes\":\"/*-k8s.yaml\"}}}")))
 
 (ert-deftest lsp-yaml-test-find-language-server-dir-on-windows ()
   "Check if default directory of \"yaml-language-server\" is correct on Windows."

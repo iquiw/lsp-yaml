@@ -34,10 +34,14 @@
   nil)
 
 (defun lsp-yaml--set-configuration ()
-  (lsp--set-configuration
-   `(:yaml
-     (:schemas
-      ,lsp-yaml-schemas))))
+  "Notify lsp-yaml settings to server."
+  (lsp--set-configuration (lsp-yaml--settings)))
+
+(defun lsp-yaml--settings ()
+  "Return lsp-yaml settings to be notified to server."
+  `(:yaml
+    (:schemas
+     ,lsp-yaml-schemas)))
 
 (defun lsp-yaml--initialize-client (client)
   (lsp-client-on-request client "custom/schema/request" #'lsp-yaml--request-custom-schema)
