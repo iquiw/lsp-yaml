@@ -35,9 +35,9 @@
 
 (defun lsp-yaml--set-configuration ()
   (lsp--set-configuration
-   `((:yaml
-      (:schemas
-       ,lsp-yaml-schemas)))))
+   `(:yaml
+     (:schemas
+      ,lsp-yaml-schemas))))
 
 (defun lsp-yaml--initialize-client (client)
   (lsp-client-on-request client "custom/schema/request" #'lsp-yaml--request-custom-schema)
