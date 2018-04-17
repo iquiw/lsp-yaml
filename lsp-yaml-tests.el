@@ -8,6 +8,14 @@
    (equal (json-encode (lsp-yaml--settings))
           "{\"yaml\":{\"schemas\":{\"kubernetes\":\"/*-k8s.yaml\"}}}")))
 
+(ert-deftest lsp-yaml-test-json-encoded-multple-schemas ()
+  "Check if JSON encoded settings with multiple schemas are correct."
+  (let ((lsp-yaml-schemas
+         '(:kubernetes "/kube.yaml" :kedge "/kedge.yaml")))
+    (should
+     (equal (json-encode (lsp-yaml--settings))
+            "{\"yaml\":{\"schemas\":{\"kubernetes\":\"/kube.yaml\",\"kedge\":\"/kedge.yaml\"}}}"))))
+
 (ert-deftest lsp-yaml-test-find-language-server-dir-on-windows ()
   "Check if default directory of \"yaml-language-server\" is correct on Windows."
   (let ((exec-path (cons "test/bin" exec-path))
