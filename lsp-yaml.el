@@ -15,8 +15,11 @@
                         (with-current-buffer standard-output
                           (process-file "npm" nil t nil "config" "get" "prefix")
                           (goto-char (point-min))
-                          (replace-regexp "\n" ""))))))
-    (expand-file-name "node_modules/yaml-language-server" npm-prefix)))
+                          (replace-regexp "\n" "")))))
+        (yaml-ls-dir (if (eq system-type 'windows-nt)
+                         "node_modules/yaml-language-server"
+                       "lib/node_modules/yaml-language-server")))
+    (expand-file-name yaml-ls-dir npm-prefix)))
 
 (defcustom lsp-yaml-language-server-dir (lsp-yaml--find-language-server-dir)
   "Directory where \"yaml-language-server\" is installed.")
