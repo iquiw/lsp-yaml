@@ -2,4 +2,8 @@
 
 # dummy npm command for test.
 
+if [ -z "$NO_UPDATE_NOTIFIER" ]; then
+	exit 1
+fi
+
 echo "/opt/npm"

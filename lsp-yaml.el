@@ -13,7 +13,8 @@
   (let ((npm-prefix (ignore-errors
                       (with-output-to-string
                         (with-current-buffer standard-output
-                          (process-file "npm" nil t nil "config" "get" "prefix")
+                          (let ((process-environment (cons "NO_UPDATE_NOTIFIER=1" process-environment)))
+                            (process-file "npm" nil t nil "config" "get" "prefix"))
                           (goto-char (point-min))
                           (replace-regexp "\n" "")))))
         (yaml-ls-dir (if (eq system-type 'windows-nt)
