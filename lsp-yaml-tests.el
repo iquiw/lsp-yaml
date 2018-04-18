@@ -16,6 +16,14 @@
      (equal (json-encode (lsp-yaml--settings))
             "{\"yaml\":{\"schemas\":{\"kubernetes\":\"/kube.yaml\",\"kedge\":\"/kedge.yaml\"}}}"))))
 
+(ert-deftest lsp-yaml-test-json-encoded-hash-table-schemas ()
+  "Check if JSON encoded settings from hash table are correct."
+  (let ((lsp-yaml-schemas (make-hash-table)))
+    (puthash "http://example.com/schema.json" "/test.yaml" lsp-yaml-schemas)
+    (should
+     (equal (json-encode (lsp-yaml--settings))
+            "{\"yaml\":{\"schemas\":{\"http://example.com/schema.json\":\"/test.yaml\"}}}"))))
+
 (ert-deftest lsp-yaml-test-find-language-server-dir-on-windows ()
   "Check if default directory of \"yaml-language-server\" is correct on Windows."
   (let ((exec-path (cons "test/bin" exec-path))

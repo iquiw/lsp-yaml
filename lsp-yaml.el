@@ -25,7 +25,8 @@
   "Directory where \"yaml-language-server\" is installed.")
 
 (defcustom lsp-yaml-schemas '(:kubernetes "/*-k8s.yaml")
-  "Schemas plist that associates schema with glob patterns.")
+  "Schemas plist that associates schema with glob patterns.
+This can be hash table instead of plist.")
 
 (defun lsp-yaml--request-custom-schema (workspace &rest resource)
   nil)
