@@ -5,5 +5,8 @@
 if [ -z "$NO_UPDATE_NOTIFIER" ]; then
 	exit 1
 fi
+if [ "$1" != "prefix" -o "$2" != "-g" ]; then
+	exit 1
+fi
 
 echo "/opt/npm"
