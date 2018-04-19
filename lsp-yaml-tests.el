@@ -24,6 +24,13 @@
      (equal (json-encode (lsp-yaml--settings))
             "{\"yaml\":{\"schemas\":{\"http://example.com/schema.json\":\"/test.yaml\"}}}"))))
 
+(ert-deftest lsp-yaml-test-json-encoded-empty-schemas ()
+  "Check if JSON encoded settings with empty schemas are correct."
+  (let ((lsp-yaml-schemas nil))
+    (should
+     (equal (json-encode (lsp-yaml--settings))
+            "{\"yaml\":{\"schemas\":{}}}"))))
+
 (ert-deftest lsp-yaml-test-find-language-server-dir-on-windows ()
   "Check if default directory of \"yaml-language-server\" is correct on Windows."
   (let ((exec-path (cons "test/bin" exec-path))

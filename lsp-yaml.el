@@ -43,7 +43,8 @@ This can be hash table instead of plist.")
   "Return lsp-yaml settings to be notified to server."
   `(:yaml
     (:schemas
-     ,lsp-yaml-schemas)))
+     ,(or lsp-yaml-schemas
+          (make-hash-table)))))
 
 (defun lsp-yaml--initialize-client (client)
   (lsp-client-on-request client "custom/schema/request" #'lsp-yaml--request-custom-schema)
