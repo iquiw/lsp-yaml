@@ -1,5 +1,39 @@
 ;;; lsp-yaml.el --- Yaml support for lsp-mode -*- lexical-binding: t; -*-
+
+;; Copyright (C) 2018  Iku Iwasa
+
+;; Author: Iku Iwasa <iku.iwasa@gmail.com>
+;; URL: https://github.com/iquiw/lsp-yaml
+;; Version: 0.0.0
+;; Package-Requires: ((lsp-mode "4.1") (emacs "25"))
+;; Keywords: lsp yaml
+
+;; This program is free software; you can redistribute it and/or modify
+;; it under the terms of the GNU General Public License as published by
+;; the Free Software Foundation, either version 3 of the License, or
+;; (at your option) any later version.
+
+;; This program is distributed in the hope that it will be useful,
+;; but WITHOUT ANY WARRANTY; without even the implied warranty of
+;; MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+;; GNU General Public License for more details.
+
+;; You should have received a copy of the GNU General Public License
+;; along with this program.  If not, see <https://www.gnu.org/licenses/>.
+
 ;;; Commentary:
+
+;; Yaml support for lsp-mode.
+;;
+;; First, install "yaml-lanaguage-server" by "npm".
+;;
+;; And then, install "lsp-mode" package.
+;;
+;; To use lsp-yaml in yaml-mode buffer, add `lsp-yaml-enable' to `yaml-mode-hook'.
+;;
+;;     (add-hook 'yaml-mode-hook #'lsp-yaml-enable)
+;;
+
 ;;; Code:
 
 (require 'lsp-mode)
