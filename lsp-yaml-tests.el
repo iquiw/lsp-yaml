@@ -16,6 +16,14 @@
      (equal (json-encode (lsp-yaml--settings))
             "{\"yaml\":{\"schemas\":{\"kubernetes\":\"/kube.yaml\",\"kedge\":\"/kedge.yaml\"}}}"))))
 
+(ert-deftest lsp-yaml-test-json-encoded-multple-schemas-as-alist ()
+  "Check if JSON encoded settings with multiple schemas alist is correct."
+  (let ((lsp-yaml-schemas
+         '(("kubernetes" . "/kube.yaml") ("kedge" . "/kedge.yaml"))))
+    (should
+     (equal (json-encode (lsp-yaml--settings))
+            "{\"yaml\":{\"schemas\":{\"kubernetes\":\"/kube.yaml\",\"kedge\":\"/kedge.yaml\"}}}"))))
+
 (ert-deftest lsp-yaml-test-json-encoded-hash-table-schemas ()
   "Check if JSON encoded settings from hash table are correct."
   (let ((lsp-yaml-schemas (make-hash-table)))
