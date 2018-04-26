@@ -58,11 +58,14 @@
     (expand-file-name yaml-ls-dir npm-prefix)))
 
 (defcustom lsp-yaml-language-server-dir (lsp-yaml--find-language-server-dir)
-  "Directory where \"yaml-language-server\" is installed.")
+  "Directory where \"yaml-language-server\" is installed."
+  :type 'string)
 
 (defcustom lsp-yaml-schemas '(:kubernetes "/*-k8s.yaml")
   "Schemas plist or alist that associates schema with glob patterns.
-This can be hash table instead of plist.")
+This can be hash table instead of plist."
+  :type '(choice (plist :tag "Schemas plist")
+                 (alist :tag "Schemas alist")))
 
 (defun lsp-yaml--request-custom-schema (workspace &rest resource)
   nil)
