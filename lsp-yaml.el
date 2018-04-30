@@ -67,6 +67,10 @@ This can be hash table instead of plist."
   :type '(choice (plist :tag "Schemas plist")
                  (alist :tag "Schemas alist")))
 
+(defcustom lsp-yaml-validate t
+  "Specify whether to enable YAML validation feature."
+  :type 'boolean)
+
 (defun lsp-yaml--request-custom-schema (workspace &rest resource)
   nil)
 
@@ -82,7 +86,8 @@ This can be hash table instead of plist."
   `(:yaml
     (:schemas
      ,(or lsp-yaml-schemas
-          (make-hash-table)))))
+          (make-hash-table))
+     :validate ,(or lsp-yaml-validate :json-false))))
 
 (defun lsp-yaml--initialize-client (client)
   (lsp-client-on-request client "custom/schema/request" #'lsp-yaml--request-custom-schema)

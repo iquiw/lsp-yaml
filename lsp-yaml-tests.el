@@ -6,7 +6,7 @@
   "Check if JSON encoded default settings are correct."
   (should
    (equal (json-encode (lsp-yaml--settings))
-          "{\"yaml\":{\"schemas\":{\"kubernetes\":\"/*-k8s.yaml\"}}}")))
+          "{\"yaml\":{\"schemas\":{\"kubernetes\":\"/*-k8s.yaml\"},\"validate\":true}}")))
 
 (ert-deftest lsp-yaml-test-json-encoded-multple-schemas ()
   "Check if JSON encoded settings with multiple schemas are correct."
@@ -14,7 +14,7 @@
          '(:kubernetes "/kube.yaml" :kedge "/kedge.yaml")))
     (should
      (equal (json-encode (lsp-yaml--settings))
-            "{\"yaml\":{\"schemas\":{\"kubernetes\":\"/kube.yaml\",\"kedge\":\"/kedge.yaml\"}}}"))))
+            "{\"yaml\":{\"schemas\":{\"kubernetes\":\"/kube.yaml\",\"kedge\":\"/kedge.yaml\"},\"validate\":true}}"))))
 
 (ert-deftest lsp-yaml-test-json-encoded-multple-schemas-as-alist ()
   "Check if JSON encoded settings with multiple schemas alist is correct."
@@ -22,7 +22,7 @@
          '(("kubernetes" . "/kube.yaml") ("kedge" . "/kedge.yaml"))))
     (should
      (equal (json-encode (lsp-yaml--settings))
-            "{\"yaml\":{\"schemas\":{\"kubernetes\":\"/kube.yaml\",\"kedge\":\"/kedge.yaml\"}}}"))))
+            "{\"yaml\":{\"schemas\":{\"kubernetes\":\"/kube.yaml\",\"kedge\":\"/kedge.yaml\"},\"validate\":true}}"))))
 
 (ert-deftest lsp-yaml-test-json-encoded-hash-table-schemas ()
   "Check if JSON encoded settings from hash table are correct."
@@ -30,14 +30,21 @@
     (puthash "http://example.com/schema.json" "/test.yaml" lsp-yaml-schemas)
     (should
      (equal (json-encode (lsp-yaml--settings))
-            "{\"yaml\":{\"schemas\":{\"http://example.com/schema.json\":\"/test.yaml\"}}}"))))
+            "{\"yaml\":{\"schemas\":{\"http://example.com/schema.json\":\"/test.yaml\"},\"validate\":true}}"))))
 
 (ert-deftest lsp-yaml-test-json-encoded-empty-schemas ()
   "Check if JSON encoded settings with empty schemas are correct."
   (let ((lsp-yaml-schemas nil))
     (should
      (equal (json-encode (lsp-yaml--settings))
-            "{\"yaml\":{\"schemas\":{}}}"))))
+            "{\"yaml\":{\"schemas\":{},\"validate\":true}}"))))
+
+(ert-deftest lsp-yaml-test-json-encoded-validate-false ()
+  "Check if JSON encoded settings are correct with validate false."
+  (should
+   (let ((lsp-yaml-validate nil))
+     (equal (json-encode (lsp-yaml--settings))
+            "{\"yaml\":{\"schemas\":{\"kubernetes\":\"/*-k8s.yaml\"},\"validate\":false}}"))))
 
 (ert-deftest lsp-yaml-test-find-language-server-dir-on-windows ()
   "Check if default directory of \"yaml-language-server\" is correct on Windows."
