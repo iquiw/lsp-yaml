@@ -57,6 +57,10 @@
                        "lib/node_modules/yaml-language-server")))
     (expand-file-name yaml-ls-dir npm-prefix)))
 
+(defcustom lsp-yaml-format-enable nil
+  "Specify whether to enable YAML format feature."
+  :type 'boolean)
+
 (defcustom lsp-yaml-language-server-dir (lsp-yaml--find-language-server-dir)
   "Directory where \"yaml-language-server\" is installed."
   :type 'string)
@@ -84,7 +88,9 @@ This can be hash table instead of plist."
 (defun lsp-yaml--settings ()
   "Return lsp-yaml settings to be notified to server."
   `(:yaml
-    (:schemas
+    (:format
+     (:enable ,(or lsp-yaml-format-enable :json-false))
+     :schemas
      ,(or lsp-yaml-schemas
           (make-hash-table))
      :validate ,(or lsp-yaml-validate :json-false))))
