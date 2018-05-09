@@ -1,0 +1,30 @@
+version: 2
+jobs:
+  "emacs-25":
+    docker:
+      - image: iquiw/emacs-circleci:latest
+    working_directory: ~/repo
+    steps:
+      - checkout
+      - run: cask
+      - run: cask install
+      - run:
+          name: test
+          command: sh run-tests.sh
+  "emacs-24":
+    docker:
+      - image: iquiw/emacs-circleci:24
+    working_directory: ~/repo
+    steps:
+      - checkout
+      - run: cask
+      - run: cask install
+      - run:
+          name: test
+          command: sh run-tests.sh
+workflows:
+  version: 2
+  build:
+    jobs:
+      - "emacs-24"
+      - "emacs-25"
