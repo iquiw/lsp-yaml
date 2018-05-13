@@ -1,5 +1,8 @@
 (require 'ert)
 
+(when (require 'undercover nil t)
+  (undercover "lsp-yaml.el"))
+
 (require 'lsp-yaml)
 
 (ert-deftest lsp-yaml-test-json-encoded-default-settings ()
