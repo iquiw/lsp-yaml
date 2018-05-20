@@ -67,7 +67,7 @@
 
 (defcustom lsp-yaml-schemas '(:kubernetes "/*-k8s.yaml")
   "Schemas plist or alist that associates schema with glob patterns.
-This can be hash table instead of plist."
+This can be also a hash table."
   :type '(choice (plist :tag "Schemas plist")
                  (alist :tag "Schemas alist")))
 
