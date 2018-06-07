@@ -1,6 +1,7 @@
 # lsp-yaml
 
 [![CircleCI](https://circleci.com/gh/iquiw/lsp-yaml.svg?style=svg)](https://circleci.com/gh/iquiw/lsp-yaml)
+[![Coverage Status](https://coveralls.io/repos/github/iquiw/lsp-yaml/badge.svg?branch=master)](https://coveralls.io/github/iquiw/lsp-yaml?branch=master)
 
 YAML support for lsp-mode using [yaml-language-server](https://github.com/redhat-developer/yaml-language-server).
 
