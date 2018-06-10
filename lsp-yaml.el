@@ -85,6 +85,10 @@ This can be also a hash table."
   "Notify lsp-yaml settings to server."
   (lsp--set-configuration (lsp-yaml--settings)))
 
+(defun lsp-yaml--set-extra-capabilities ()
+  "Register client capabilities for setting workspace.symbol.dynamicRegistration to true."
+  (lsp-register-client-capabilities 'lsp-yaml '(:workspace (:symbol (:dynamicRegistration t)))))
+
 (defun lsp-yaml--settings ()
   "Return lsp-yaml settings to be notified to server."
   `(:yaml
@@ -107,6 +111,7 @@ This can be also a hash table."
                           "--stdio")
                          :initialize #'lsp-yaml--initialize-client)
 
+(add-hook 'lsp-before-initialize-hook #'lsp-yaml--set-extra-capabilities)
 (add-hook 'lsp-after-initialize-hook #'lsp-yaml--set-configuration)
 
 (provide 'lsp-yaml)
