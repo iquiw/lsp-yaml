@@ -86,8 +86,8 @@ This can be also a hash table."
   (lsp--set-configuration (lsp-yaml--settings)))
 
 (defun lsp-yaml--set-extra-capabilities ()
-  "Register client capabilities for setting workspace.symbol.dynamicRegistration to true."
-  (lsp-register-client-capabilities 'lsp-yaml '(:workspace (:symbol (:dynamicRegistration t)))))
+  "Register client capabilities for setting textDocument.formatting.dynamicRegistration to true."
+  (lsp-register-client-capabilities 'lsp-yaml '(:textDocument (:formatting (:dynamicRegistration t)))))
 
 (defun lsp-yaml--settings ()
   "Return lsp-yaml settings to be notified to server."
