@@ -65,7 +65,7 @@
   "Directory where \"yaml-language-server\" is installed."
   :type 'string)
 
-(defcustom lsp-yaml-schemas '(:kubernetes "/*-k8s.yaml")
+(defcustom lsp-yaml-schemas nil
   "Schemas plist or alist that associates schema with glob patterns.
 This can be also a hash table."
   :type '(choice (plist :tag "Schemas plist")

@@ -43,7 +43,13 @@ Default is yaml-language-server installed under global NPM prefix directory.
 Schemas plist or alist that associates schema with glob patterns.
 This can be also a hash table.
 
-Default is `'(:kubernetes "/*-k8s.yaml")`.
+For example,
+
+``` emacs-lisp
+(setq lsp-yaml-schemas '(:kubernetes "/*-k8s.yaml"))
+```
+
+Default is `nil`.
 
 #### `lsp-yaml-validate`
 

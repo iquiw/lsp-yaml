@@ -9,7 +9,7 @@
   "Check if JSON encoded default settings are correct."
   (should
    (equal (json-encode (lsp-yaml--settings))
-          "{\"yaml\":{\"format\":{\"enable\":false},\"schemas\":{\"kubernetes\":\"/*-k8s.yaml\"},\"validate\":true}}")))
+          "{\"yaml\":{\"format\":{\"enable\":false},\"schemas\":{},\"validate\":true}}")))
 
 (ert-deftest lsp-yaml-test-json-encoded-multple-schemas ()
   "Check if JSON encoded settings with multiple schemas are correct."
@@ -47,14 +47,14 @@
   (should
    (let ((lsp-yaml-validate nil))
      (equal (json-encode (lsp-yaml--settings))
-            "{\"yaml\":{\"format\":{\"enable\":false},\"schemas\":{\"kubernetes\":\"/*-k8s.yaml\"},\"validate\":false}}"))))
+            "{\"yaml\":{\"format\":{\"enable\":false},\"schemas\":{},\"validate\":false}}"))))
 
 (ert-deftest lsp-yaml-test-json-encoded-format-enable-true ()
   "Check if JSON encoded settings are correct with format.enable true."
   (should
    (let ((lsp-yaml-format-enable t))
      (equal (json-encode (lsp-yaml--settings))
-            "{\"yaml\":{\"format\":{\"enable\":true},\"schemas\":{\"kubernetes\":\"/*-k8s.yaml\"},\"validate\":true}}"))))
+            "{\"yaml\":{\"format\":{\"enable\":true},\"schemas\":{},\"validate\":true}}"))))
 
 (ert-deftest lsp-yaml-test-find-language-server-dir-on-windows ()
   "Check if default directory of \"yaml-language-server\" is correct on Windows."
