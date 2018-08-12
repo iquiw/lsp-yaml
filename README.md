@@ -32,6 +32,12 @@ To enable lsp-yaml in yaml-mode buffer, with [use-package](https://github.com/jw
 
 ### Customization
 
+#### `lsp-yaml-format-enable`
+
+Specify whether to enable YAML format feature.
+
+Default is `nil`.
+
 #### `lsp-yaml-language-server-dir`
 
 Directory where yaml-language-server is installed.
