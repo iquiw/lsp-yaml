@@ -47,7 +47,8 @@
   (let ((npm-prefix (ignore-errors
                       (with-output-to-string
                         (with-current-buffer standard-output
-                          (let ((process-environment (cons "NO_UPDATE_NOTIFIER=1" process-environment)))
+                          (let ((process-environment
+                                 (cons "NO_UPDATE_NOTIFIER=1" process-environment)))
                             (process-file "npm" nil t nil "prefix" "-g"))
                           (goto-char (point-max))
                           (when (eq (char-before) ?\n)
@@ -75,10 +76,10 @@ This can be also a hash table."
   "Specify whether to enable YAML validation feature."
   :type 'boolean)
 
-(defun lsp-yaml--request-custom-schema (workspace &rest resource)
+(defun lsp-yaml--request-custom-schema (_workspace &rest _resource)
   nil)
 
-(defun lsp-yaml--request-custom-schema-content (workspace &rest resource)
+(defun lsp-yaml--request-custom-schema-content (_workspace &rest _resource)
   nil)
 
 (defun lsp-yaml--set-configuration ()
@@ -86,8 +87,10 @@ This can be also a hash table."
   (lsp--set-configuration (lsp-yaml--settings)))
 
 (defun lsp-yaml--set-extra-capabilities ()
-  "Register client capabilities for setting textDocument.formatting.dynamicRegistration to true."
-  (lsp-register-client-capabilities 'lsp-yaml '(:textDocument (:formatting (:dynamicRegistration t)))))
+  "Register client capabilities for setting \
+textDocument.formatting.dynamicRegistration to true."
+  (lsp-register-client-capabilities
+   'lsp-yaml '(:textDocument (:formatting (:dynamicRegistration t)))))
 
 (defun lsp-yaml--settings ()
   "Return lsp-yaml settings to be notified to server."
@@ -100,14 +103,18 @@ This can be also a hash table."
      :validate ,(or lsp-yaml-validate :json-false))))
 
 (defun lsp-yaml--initialize-client (client)
-  (lsp-client-on-request client "custom/schema/request" #'lsp-yaml--request-custom-schema)
-  (lsp-client-on-request client "custom/schema/content" #'lsp-yaml--request-custom-schema-content))
+  (lsp-client-on-request
+   client "custom/schema/request" #'lsp-yaml--request-custom-schema)
+  (lsp-client-on-request
+   client "custom/schema/content" #'lsp-yaml--request-custom-schema-content))
 
+;;;###autoload(autoload 'lsp-yaml-enable "lsp-yaml")
 (lsp-define-stdio-client lsp-yaml "yaml"
                          (lambda () default-directory)
                          (list
                           "node"
-                          (expand-file-name "out/server/src/server.js" lsp-yaml-language-server-dir)
+                          (expand-file-name "out/server/src/server.js"
+                                            lsp-yaml-language-server-dir)
                           "--stdio")
                          :initialize #'lsp-yaml--initialize-client)
 
