@@ -38,6 +38,33 @@ Specify whether to enable YAML format feature.
 
 Default is `nil`.
 
+#### `lsp-yaml-format-options`
+
+Specify YAML format options as plist, alist or hash table.
+Specified options are converted to JSON object under `yaml.format` and sent to the server as is.
+
+For example,
+
+``` emacs-lisp
+(:singleQuote t :bracketSpacing :json-false :proseWrap "preserve")
+```
+
+will be sent as
+
+``` json
+{
+  "yaml": {
+    "format": {
+      "singleQuote": true,
+      "bracketSpacing": false,
+      "proseWrap": "preserve"
+    }
+  }
+}
+```
+
+Default is `nil`.
+
 #### `lsp-yaml-language-server-dir`
 
 Directory where yaml-language-server is installed.

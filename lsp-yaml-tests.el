@@ -56,6 +56,42 @@
      (equal (json-encode (lsp-yaml--settings))
             "{\"yaml\":{\"format\":{\"enable\":true},\"schemas\":{},\"validate\":true}}"))))
 
+(ert-deftest lsp-yaml-test-json-encoded-format-options-as-plist ()
+  "Check if JSON encoded format options are correct from plist value."
+   (let ((lsp-yaml-format-enable t)
+         (lsp-yaml-format-options '(:singleQuote t :proseWrap "never")))
+     (should
+      (equal (json-encode (lsp-yaml--format-options))
+             "{\"enable\":true,\"singleQuote\":true,\"proseWrap\":\"never\"}"))))
+
+(ert-deftest lsp-yaml-test-json-encoded-format-options-as-alist ()
+  "Check if JSON encoded format options are correct from alist value."
+   (let ((lsp-yaml-format-enable nil)
+         (lsp-yaml-format-options '(("bracketSpacing" . :json-false) ("proseWrap" . "always"))))
+     (should
+      (equal (json-encode (lsp-yaml--format-options))
+             "{\"enable\":false,\"bracketSpacing\":false,\"proseWrap\":\"always\"}"))))
+
+(ert-deftest lsp-yaml-test-json-encoded-format-options-as-hash-table ()
+  "Check if JSON encoded format options are correct from hash table value."
+   (let ((lsp-yaml-format-enable t)
+         (lsp-yaml-format-options (make-hash-table)))
+     (puthash "singleQuote" :json-false lsp-yaml-format-options)
+     (puthash "bracketSpacing" t lsp-yaml-format-options)
+     (puthash "proseWrap" "preserve" lsp-yaml-format-options)
+     (let ((json (json-encode (lsp-yaml--format-options))))
+       (should (string-match-p "\"enable\":true" json))
+       (should (string-match-p "\"singleQuote\":false" json))
+       (should (string-match-p "\"bracketSpacing\":true" json))
+       (should (string-match-p "\"proseWrap\":\"preserve\"" json)))))
+
+(ert-deftest lsp-yaml-test-json-encoded-format-options-error-invalid-type ()
+  "Check if user-error is thrown for invalid format options."
+  (let ((lsp-yaml-format-options (cons "singleQuote" t)))
+    (should-error (lsp-yaml--format-options) :type 'user-error))
+  (let ((lsp-yaml-format-options t))
+    (should-error (lsp-yaml--format-options) :type 'user-error)))
+
 (ert-deftest lsp-yaml-test-find-language-server-dir-on-windows ()
   "Check if default directory of \"yaml-language-server\" is correct on Windows."
   (let ((exec-path (cons "test/bin" exec-path))
