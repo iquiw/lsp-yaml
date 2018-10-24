@@ -63,6 +63,8 @@ will be sent as
 }
 ```
 
+Refer to [Language Server Settings](https://github.com/redhat-developer/yaml-language-server#language-server-settings) of yaml-language-server for the detail.
+
 Default is `nil`.
 
 #### `lsp-yaml-language-server-dir`
