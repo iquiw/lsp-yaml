@@ -62,6 +62,30 @@
   "Specify whether to enable YAML format feature."
   :type 'boolean)
 
+(defcustom lsp-yaml-format-options nil
+  "Specify YAML format options as plist, alist or hash table.
+Specified options are converted to JSON object under \"yaml.format\" and
+sent to the server as is.
+
+For example,
+
+  (:singleQuote t :bracketSpacing :json-false :proseWrap \"preserve\")
+
+will be sent as
+
+  {
+    \"yaml\": {
+      \"format\": {
+        \"singleQuote\": true,
+        \"bracketSpacing\": false,
+        \"proseWrap\": \"preserve\"
+      }
+    }
+  }
+"
+  :type '(choice (plist :tag "Format options plist")
+                 (alist :tag "Format options plist")))
+
 (defcustom lsp-yaml-language-server-dir (lsp-yaml--find-language-server-dir)
   "Directory where \"yaml-language-server\" is installed."
   :type 'string)
@@ -96,11 +120,26 @@ textDocument.formatting.dynamicRegistration to true."
   "Return lsp-yaml settings to be notified to server."
   `(:yaml
     (:format
-     (:enable ,(or lsp-yaml-format-enable :json-false))
+     ,(lsp-yaml--format-options)
      :schemas
      ,(or lsp-yaml-schemas
           (make-hash-table))
      :validate ,(or lsp-yaml-validate :json-false))))
+
+(defun lsp-yaml--format-options ()
+  "Return format options settings.
+The value is composed from `lsp-yaml-format-enable' and `lsp-yaml-format-options'."
+  (let ((enable (or lsp-yaml-format-enable :json-false)))
+    (pcase lsp-yaml-format-options
+      ((pred json-plist-p) (cons :enable
+                                 (cons enable lsp-yaml-format-options)))
+      ((pred json-alist-p) (cons (cons "enable" enable)
+                                 lsp-yaml-format-options))
+      ((pred hash-table-p)
+       (let ((options (copy-hash-table lsp-yaml-format-options)))
+         (puthash "enable" enable options)
+         options))
+      (_ (user-error "Invalid `lsp-yaml-format-options'. Plist, alist or hash table is expected.")))))
 
 (defun lsp-yaml--initialize-client (client)
   (lsp-client-on-request
