@@ -100,12 +100,6 @@ This can be also a hash table."
   "Specify whether to enable YAML validation feature."
   :type 'boolean)
 
-(defun lsp-yaml--request-custom-schema (_workspace &rest _resource)
-  nil)
-
-(defun lsp-yaml--request-custom-schema-content (_workspace &rest _resource)
-  nil)
-
 (defun lsp-yaml--set-configuration ()
   "Notify lsp-yaml settings to server."
   (lsp--set-configuration (lsp-yaml--settings)))
@@ -141,12 +135,6 @@ The value is composed from `lsp-yaml-format-enable' and `lsp-yaml-format-options
          options))
       (_ (user-error "Invalid `lsp-yaml-format-options'. Plist, alist or hash table is expected.")))))
 
-(defun lsp-yaml--initialize-client (client)
-  (lsp-client-on-request
-   client "custom/schema/request" #'lsp-yaml--request-custom-schema)
-  (lsp-client-on-request
-   client "custom/schema/content" #'lsp-yaml--request-custom-schema-content))
-
 ;;;###autoload(autoload 'lsp-yaml-enable "lsp-yaml")
 (lsp-define-stdio-client lsp-yaml "yaml"
                          (lambda () default-directory)
@@ -154,8 +142,7 @@ The value is composed from `lsp-yaml-format-enable' and `lsp-yaml-format-options
                           "node"
                           (expand-file-name "out/server/src/server.js"
                                             lsp-yaml-language-server-dir)
-                          "--stdio")
-                         :initialize #'lsp-yaml--initialize-client)
+                          "--stdio"))
 
 (add-hook 'lsp-before-initialize-hook #'lsp-yaml--set-extra-capabilities)
 (add-hook 'lsp-after-initialize-hook #'lsp-yaml--set-configuration)
