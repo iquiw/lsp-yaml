@@ -58,6 +58,10 @@
                        "lib/node_modules/yaml-language-server")))
     (expand-file-name yaml-ls-dir npm-prefix)))
 
+(defcustom lsp-yaml-completion t
+  "Specify whether to enable autocompletion."
+  :type 'boolean)
+
 (defcustom lsp-yaml-format-enable nil
   "Specify whether to enable YAML format feature."
   :type 'boolean)
@@ -113,7 +117,9 @@ textDocument.formatting.dynamicRegistration to true."
 (defun lsp-yaml--settings ()
   "Return lsp-yaml settings to be notified to server."
   `(:yaml
-    (:format
+    (:completion
+     ,(or lsp-yaml-completion :json-false)
+     :format
      ,(lsp-yaml--format-options)
      :schemas
      ,(or lsp-yaml-schemas
