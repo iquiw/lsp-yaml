@@ -91,3 +91,9 @@ Default is `nil`.
 Specify whether to enable YAML validation feature.
 
 Default is `t`.
+
+#### `lsp-yaml-completion`
+
+Specify whether to enable YAML autocompletion feature.
+
+Default is `t`.

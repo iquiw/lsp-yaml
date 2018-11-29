@@ -9,7 +9,7 @@
   "Check if JSON encoded default settings are correct."
   (should
    (equal (json-encode (lsp-yaml--settings))
-          "{\"yaml\":{\"format\":{\"enable\":false},\"schemas\":{},\"validate\":true}}")))
+          "{\"yaml\":{\"completion\":true,\"format\":{\"enable\":false},\"schemas\":{},\"validate\":true}}")))
 
 (ert-deftest lsp-yaml-test-json-encoded-multple-schemas ()
   "Check if JSON encoded settings with multiple schemas are correct."
@@ -17,7 +17,7 @@
          '(:kubernetes "/kube.yaml" :kedge "/kedge.yaml")))
     (should
      (equal (json-encode (lsp-yaml--settings))
-            "{\"yaml\":{\"format\":{\"enable\":false},\"schemas\":{\"kubernetes\":\"/kube.yaml\",\"kedge\":\"/kedge.yaml\"},\"validate\":true}}"))))
+            "{\"yaml\":{\"completion\":true,\"format\":{\"enable\":false},\"schemas\":{\"kubernetes\":\"/kube.yaml\",\"kedge\":\"/kedge.yaml\"},\"validate\":true}}"))))
 
 (ert-deftest lsp-yaml-test-json-encoded-multple-schemas-as-alist ()
   "Check if JSON encoded settings with multiple schemas alist is correct."
@@ -25,7 +25,7 @@
          '(("kubernetes" . "/kube.yaml") ("kedge" . "/kedge.yaml"))))
     (should
      (equal (json-encode (lsp-yaml--settings))
-            "{\"yaml\":{\"format\":{\"enable\":false},\"schemas\":{\"kubernetes\":\"/kube.yaml\",\"kedge\":\"/kedge.yaml\"},\"validate\":true}}"))))
+            "{\"yaml\":{\"completion\":true,\"format\":{\"enable\":false},\"schemas\":{\"kubernetes\":\"/kube.yaml\",\"kedge\":\"/kedge.yaml\"},\"validate\":true}}"))))
 
 (ert-deftest lsp-yaml-test-json-encoded-hash-table-schemas ()
   "Check if JSON encoded settings from hash table are correct."
@@ -33,28 +33,35 @@
     (puthash "http://example.com/schema.json" "/test.yaml" lsp-yaml-schemas)
     (should
      (equal (json-encode (lsp-yaml--settings))
-            "{\"yaml\":{\"format\":{\"enable\":false},\"schemas\":{\"http://example.com/schema.json\":\"/test.yaml\"},\"validate\":true}}"))))
+            "{\"yaml\":{\"completion\":true,\"format\":{\"enable\":false},\"schemas\":{\"http://example.com/schema.json\":\"/test.yaml\"},\"validate\":true}}"))))
 
 (ert-deftest lsp-yaml-test-json-encoded-empty-schemas ()
   "Check if JSON encoded settings with empty schemas are correct."
   (let ((lsp-yaml-schemas nil))
     (should
      (equal (json-encode (lsp-yaml--settings))
-            "{\"yaml\":{\"format\":{\"enable\":false},\"schemas\":{},\"validate\":true}}"))))
+            "{\"yaml\":{\"completion\":true,\"format\":{\"enable\":false},\"schemas\":{},\"validate\":true}}"))))
 
 (ert-deftest lsp-yaml-test-json-encoded-validate-false ()
   "Check if JSON encoded settings are correct with validate false."
   (should
    (let ((lsp-yaml-validate nil))
      (equal (json-encode (lsp-yaml--settings))
-            "{\"yaml\":{\"format\":{\"enable\":false},\"schemas\":{},\"validate\":false}}"))))
+            "{\"yaml\":{\"completion\":true,\"format\":{\"enable\":false},\"schemas\":{},\"validate\":false}}"))))
+
+(ert-deftest lsp-yaml-test-json-encoded-completion-false ()
+  "Check if JSON encoded settings are correct with completion false."
+  (should
+   (let ((lsp-yaml-completion nil))
+     (equal (json-encode (lsp-yaml--settings))
+            "{\"yaml\":{\"completion\":false,\"format\":{\"enable\":false},\"schemas\":{},\"validate\":true}}"))))
 
 (ert-deftest lsp-yaml-test-json-encoded-format-enable-true ()
   "Check if JSON encoded settings are correct with format.enable true."
   (should
    (let ((lsp-yaml-format-enable t))
      (equal (json-encode (lsp-yaml--settings))
-            "{\"yaml\":{\"format\":{\"enable\":true},\"schemas\":{},\"validate\":true}}"))))
+            "{\"yaml\":{\"completion\":true,\"format\":{\"enable\":true},\"schemas\":{},\"validate\":true}}"))))
 
 (ert-deftest lsp-yaml-test-json-encoded-format-options-as-plist ()
   "Check if JSON encoded format options are correct from plist value."
