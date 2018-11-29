@@ -90,6 +90,10 @@ will be sent as
   :type '(choice (plist :tag "Format options plist")
                  (alist :tag "Format options plist")))
 
+(defcustom lsp-yaml-hover t
+  "Specify whether to enable hover."
+  :type 'boolean)
+
 (defcustom lsp-yaml-language-server-dir (lsp-yaml--find-language-server-dir)
   "Directory where \"yaml-language-server\" is installed."
   :type 'string)
@@ -121,6 +125,8 @@ textDocument.formatting.dynamicRegistration to true."
      ,(or lsp-yaml-completion :json-false)
      :format
      ,(lsp-yaml--format-options)
+     :hover
+     ,(or lsp-yaml-hover :json-false)
      :schemas
      ,(or lsp-yaml-schemas
           (make-hash-table))

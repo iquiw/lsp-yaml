@@ -92,6 +92,12 @@ Specify whether to enable YAML validation feature.
 
 Default is `t`.
 
+#### `lsp-yaml-hover`
+
+Specify whether to enable hover feature.
+
+Default is `t`.
+
 #### `lsp-yaml-completion`
 
 Specify whether to enable YAML autocompletion feature.
