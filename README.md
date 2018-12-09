@@ -25,9 +25,9 @@ To enable lsp-yaml in yaml-mode buffer, with [use-package](https://github.com/jw
 
 ``` emacs-lisp
 (use-package lsp-yaml
-  :commands lsp-yaml-enable
-  :init
-  (add-hook 'yaml-mode-hook #'lsp-yaml-enable))
+  :after lsp
+  :config
+  (add-hook 'yaml-mode-hook #'lsp))
 ```
 
 ### Customization

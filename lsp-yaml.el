@@ -29,14 +29,14 @@
 ;;
 ;; And then, install "lsp-mode" package.
 ;;
-;; To use lsp-yaml in yaml-mode buffer, add `lsp-yaml-enable' to `yaml-mode-hook'.
+;; To use lsp-yaml in yaml-mode buffer, add `lsp' to `yaml-mode-hook'.
 ;;
-;;     (add-hook 'yaml-mode-hook #'lsp-yaml-enable)
+;;     (add-hook 'yaml-mode-hook #'lsp)
 ;;
 
 ;;; Code:
 
-(require 'lsp-mode)
+(require 'lsp)
 
 (defgroup lsp-yaml nil
   "Yaml support for lsp-mode."
@@ -112,12 +112,6 @@ This can be also a hash table."
   "Notify lsp-yaml settings to server."
   (lsp--set-configuration (lsp-yaml--settings)))
 
-(defun lsp-yaml--set-extra-capabilities ()
-  "Register client capabilities for setting \
-textDocument.formatting.dynamicRegistration to true."
-  (lsp-register-client-capabilities
-   'lsp-yaml '(:textDocument (:formatting (:dynamicRegistration t)))))
-
 (defun lsp-yaml--settings ()
   "Return lsp-yaml settings to be notified to server."
   `(:yaml
@@ -147,17 +141,16 @@ The value is composed from `lsp-yaml-format-enable' and `lsp-yaml-format-options
          options))
       (_ (user-error "Invalid `lsp-yaml-format-options'. Plist, alist or hash table is expected.")))))
 
-;;;###autoload(autoload 'lsp-yaml-enable "lsp-yaml")
-(lsp-define-stdio-client lsp-yaml "yaml"
-                         (lambda () default-directory)
-                         (list
-                          "node"
-                          (expand-file-name "out/server/src/server.js"
-                                            lsp-yaml-language-server-dir)
-                          "--stdio"))
+(lsp-register-client
+ (make-lsp-client :new-connection (lsp-stdio-connection
+                                   (list "node"
+                                         (expand-file-name "out/server/src/server.js"
+                                                           lsp-yaml-language-server-dir)
+                                         "--stdio"))
+                  :major-modes '(yaml-mode)
+                  :server-id 'yaml))
 
-(add-hook 'lsp-before-initialize-hook #'lsp-yaml--set-extra-capabilities)
-(add-hook 'lsp-after-initialize-hook #'lsp-yaml--set-configuration)
+(add-hook 'lsp-before-initialize-hook #'lsp-yaml--set-configuration)
 
 (provide 'lsp-yaml)
 ;;; lsp-yaml.el ends here
