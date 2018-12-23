@@ -36,7 +36,7 @@
 
 ;;; Code:
 
-(require 'lsp)
+(require 'lsp-mode)
 
 (defgroup lsp-yaml nil
   "Yaml support for lsp-mode."
