@@ -150,7 +150,7 @@ The value is composed from `lsp-yaml-format-enable' and `lsp-yaml-format-options
                   :major-modes '(yaml-mode)
                   :server-id 'yaml))
 
-(add-hook 'lsp-before-initialize-hook #'lsp-yaml--set-configuration)
+(add-hook 'lsp-before-open-hook #'lsp-yaml--set-configuration)
 
 (provide 'lsp-yaml)
 ;;; lsp-yaml.el ends here
