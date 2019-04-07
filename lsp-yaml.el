@@ -42,22 +42,6 @@
   "Yaml support for lsp-mode."
   :group 'lsp-mode)
 
-(defun lsp-yaml--find-language-server-dir ()
-  "Find default \"yaml-language-server\" directory using \"npm\" command."
-  (let ((npm-prefix (ignore-errors
-                      (with-output-to-string
-                        (with-current-buffer standard-output
-                          (let ((process-environment
-                                 (cons "NO_UPDATE_NOTIFIER=1" process-environment)))
-                            (process-file "npm" nil t nil "prefix" "-g"))
-                          (goto-char (point-max))
-                          (when (eq (char-before) ?\n)
-                            (delete-char -1))))))
-        (yaml-ls-dir (if (eq system-type 'windows-nt)
-                         "node_modules/yaml-language-server"
-                       "lib/node_modules/yaml-language-server")))
-    (expand-file-name yaml-ls-dir npm-prefix)))
-
 (defcustom lsp-yaml-completion t
   "Specify whether to enable autocompletion."
   :type 'boolean)
@@ -94,9 +78,9 @@ will be sent as
   "Specify whether to enable hover."
   :type 'boolean)
 
-(defcustom lsp-yaml-language-server-dir (lsp-yaml--find-language-server-dir)
-  "Directory where \"yaml-language-server\" is installed."
-  :type 'string)
+(defcustom lsp-yaml-server "yaml-language-server"
+  "The \"yaml-language-server\" executable to use."
+  :type 'file)
 
 (defcustom lsp-yaml-schemas nil
   "Schemas plist or alist that associates schema with glob patterns.
@@ -142,11 +126,7 @@ The value is composed from `lsp-yaml-format-enable' and `lsp-yaml-format-options
       (_ (user-error "Invalid `lsp-yaml-format-options'. Plist, alist or hash table is expected.")))))
 
 (lsp-register-client
- (make-lsp-client :new-connection (lsp-stdio-connection
-                                   (list "node"
-                                         (expand-file-name "out/server/src/server.js"
-                                                           lsp-yaml-language-server-dir)
-                                         "--stdio"))
+ (make-lsp-client :new-connection (lsp-stdio-connection (list lsp-yaml-server "--stdio"))
                   :major-modes '(yaml-mode)
                   :server-id 'yaml
                   :initialized-fn (lambda (workspace)
