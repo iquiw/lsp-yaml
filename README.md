@@ -9,7 +9,7 @@ YAML support for lsp-mode using [yaml-language-server](https://github.com/redhat
 
 ### Prerequisite
 
-Install yaml-language-server by npm.
+Install yaml-language-server (>= v0.4.0) by npm.
 
 ``` console
 $ npm install -g yaml-language-server

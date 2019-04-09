@@ -105,19 +105,3 @@
     (should-error (lsp-yaml--format-options) :type 'user-error))
   (let ((lsp-yaml-format-options t))
     (should-error (lsp-yaml--format-options) :type 'user-error)))
-
-(ert-deftest lsp-yaml-test-find-language-server-dir-on-windows ()
-  "Check if default directory of \"yaml-language-server\" is correct on Windows."
-  (let ((exec-path (cons "test/bin" exec-path))
-        (system-type 'windows-nt))
-    (should
-     (equal (lsp-yaml--find-language-server-dir)
-            "/opt/npm/node_modules/yaml-language-server"))))
-
-(ert-deftest lsp-yaml-test-find-language-server-dir-on-non-windows ()
-  "Check if default directory of \"yaml-language-server\" is correct on non-Windows."
-  (let ((exec-path (cons "test/bin" exec-path))
-        (system-type 'gnu/linux))
-    (should
-     (equal (lsp-yaml--find-language-server-dir)
-            "/opt/npm/lib/node_modules/yaml-language-server"))))
